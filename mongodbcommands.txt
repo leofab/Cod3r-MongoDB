@@ -1,0 +1,53 @@
+<!-- MongoDB commands study -->
+
+$ mongo
+> use wm
+> db.createCollection('Estados') // Cria tabledoc Estados insise of wm db
+> show collections 				 // Mostra todas collections dentro de wm
+> db.Estados.drop()				 // dropa tabledoc Estados
+
+> db.createCollection('estados')
+> db.estados.insertOne(
+	{nome: 'Alagoas',
+	sigla: 'AL',
+	regiao: 'Nordeste',
+	populacao: '223000'}
+	)							 // cria instancia de doc dentro de db.estados
+	
+> db.estados.find()				 // mostra todas instancias de doc dentro de db.estados
+> db.estados.find().pretty()	 // mostra instancias organizadas
+
+> db.estados.insertOne(
+	{nome: 'Rio de Janeiro',
+	sigla: 'RJ',
+	regiao: 'Sudeste',
+	cidades: [
+	{nome: 'Niteroi',
+	area: 133.9,
+	populacao: 487562
+	}]})						 // insere nova instancia com nested docs
+	
+> db.estados.insertOne(
+	{nome: 'São Paulo',
+	sigla: 'SP',
+	regiao: 'Sudeste',
+	Cidades: [
+		{
+		nome: 'Campinas',
+		area: 795.7,
+		prefeito:
+		'Jonas Donizette',
+		populacao: 1081000
+		},
+		{
+		nome: 'Guarulhos',
+		populacao: 1325000
+		},
+		{
+		nome: 'Sorocaba',
+		distanciaCapital: 87,
+		populacao: 644919
+		}]
+		})						 // insere nova instancia com multiples instancias em um nested docs
+		
+>

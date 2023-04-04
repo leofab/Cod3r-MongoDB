@@ -82,12 +82,21 @@ $ mongo
 								 //		  ]
 								 //		}
 								 
- > db.estados.find(
- {nome: 'São Paulo',
-  Cidades:
+> db.estados.find(
+  {nome: 'São Paulo',
+   Cidades:
+   { $elemMatch:
+   { nome: 'Sorocaba'}}},
+   {Cidades:
+   { $elemMatch:
+   {nome: 'Sorocaba'}}}			 // usa multiplos filtros para achar apenas o registro com nome Sorocaba
+								 // dentro do db.estados.nome = "Sao Paulo"
+								 
+> db.estados.updateOne(
+  {nome: 'São Paulo', Cidades:
   { $elemMatch:
   { nome: 'Sorocaba'}}},
-  {Cidades:
-  { $elemMatch:
-  {nome: 'Sorocaba'}}}			 // usa multiplos filtros para achar apenas o registro com nome Sorocaba
-								 // dentro do db.estados.nome = "Sao Paulo"
+  { $set:
+  { "Cidades.$._id": ObjectId()	 
+  }})							 // usa metodo updateOne com filtros para selecionar apenas a ocorrencia
+								 // de nome = 'Sorocaba' dentro de db.estados.nome = "Sao Paulo";

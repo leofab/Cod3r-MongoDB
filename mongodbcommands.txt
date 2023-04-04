@@ -1,4 +1,4 @@
-<!-- MongoDB commands study -->
+<!-- MongoDB 🍃 commands study -->
 
 $ mongo
 > use wm
@@ -100,3 +100,12 @@ $ mongo
   { "Cidades.$._id": ObjectId()	 
   }})							 // usa metodo updateOne com filtros para selecionar apenas a ocorrencia
 								 // de nome = 'Sorocaba' dentro de db.estados.nome = "Sao Paulo";
+								 
+> db.estados.updateOne(
+  {nome: 'São Paulo', Cidades:
+  { $elemMatch:
+  { nome: 'Guarulhos'}}},
+  { $set:
+  { "Cidades.$._id": ObjectId()
+  }})							 // usa metodo updateOne com filtros para selecionar apenas a ocorrencia
+								 // de nome = 'Guarulhos' dentro de db.estados.nome = "Sao Paulo";

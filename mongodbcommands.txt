@@ -109,3 +109,13 @@ $ mongo
   { "Cidades.$._id": ObjectId()
   }})							 // usa metodo updateOne com filtros para selecionar apenas a ocorrencia
 								 // de nome = 'Guarulhos' dentro de db.estados.nome = "Sao Paulo";
+								 
+> db.estados.aggregate([
+	{$project:
+	{
+	nome: 1,
+	"cidades.nome:1,
+	_id: 0
+	}
+}])								 // usa metodo aggregate com estágio $project para selecionar apenas
+								 // os fields que vc quer mostrar ou alterar

@@ -50,4 +50,44 @@ $ mongo
 		}]
 		})						 // insere nova instancia com multiples instancias em um nested docs
 		
->
+> db.estados.find(
+	{nome: 'São Paulo'})		 // usa filtro para mostrar apenas os matches de {nome: 'Sao Paulo'}
+	
+> db.estados.find(
+	{nome: 'São Paulo', Cidades:
+	{ $elemMatch: 
+	{ nome: 'Sorocaba'}}})		 // usa operador $elemMatch para achar um array com pelo menos uma ocorrencia,
+								 // nesse caso vai retornar a query
+								 // 	{
+								 //		_id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //		  nome: 'São Paulo',
+								 //		  sigla: 'SP',
+								 //		  regiao: 'Sudeste',
+								 //		  Cidades: [
+								 //			{
+								 //			  nome: 'Campinas',
+								 //			  area: 795.7,
+								 //			  prefeito: 'Jonas Donizette',
+								 //			  populacao: 1081000
+								 //			},
+								 //			{
+								 //			  nome: 'Guarulhos',
+								 //			  populacao: 1325000
+								 //			},
+								 //			{
+								 //			  nome: 'Sorocaba',
+								 //			  distanciaCapital: 87,
+								 //			  populacao: 644919
+								 //			}
+								 //		  ]
+								 //		}
+								 
+ > db.estados.find(
+ {nome: 'São Paulo',
+  Cidades:
+  { $elemMatch:
+  { nome: 'Sorocaba'}}},
+  {Cidades:
+  { $elemMatch:
+  {nome: 'Sorocaba'}}}			 // usa multiplos filtros para achar apenas o registro com nome Sorocaba
+								 // dentro do db.estados.nome = "Sao Paulo"

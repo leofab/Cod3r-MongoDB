@@ -195,3 +195,22 @@ $ mongo
 								 //	  _id: null,
 								 //	  populacaoTotal: 3538481
 								 //	}
+								 
+> db.estados.aggregate([
+	{ $project:
+	{populacao:
+	{$sum:"$cidades.populacao"},
+	sigla: 1,
+	_id:0}},
+	{$group:
+	{_id: null,
+	populacaoTotal:
+	{$sum: "$populacao"}}},
+	{$project:
+	{_id:0,
+	populacaoTotal:1
+}}])							 // podemos usar mais de um $project para ajustar o resultados das pesquisas
+								 // nesse caso vai retornar a query:
+								 //	{
+								 //	  populacaoTotal: 3538481
+								 //	}

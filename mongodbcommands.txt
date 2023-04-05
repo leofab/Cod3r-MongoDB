@@ -284,3 +284,82 @@ $ mongo
 	as: 'estado'}},
 	{$unwind:'$estado'}).pretty()
 								 // Resultado de as como um Objeto sem ser encapsulado por array
+								 
+> db.empresas.aggregate([
+	{$match:
+	{nome:'Vale'}},
+	{$lookup:
+	{from:'estados',
+	localField:'cidadeId',
+	foreignField:'cidades._id',
+	as:'estado'}}]).pretty()
+								
+								 // Mesmo resultado da query que utilizava estadoID
+								 
+> db.empresas.aggregate([
+	{$match:
+	{nome:'Vale'}},
+	{$lookup:
+	{from:'estados',
+	localField:'cidadeId',
+	foreignField:'cidades._id',
+	as:'estado'}},
+	{$unwind:'$estado'},
+	{$unwind:'$estado.cidades'}]).pretty()
+
+								 // Cria resultados agregando cada cidade do estado em um bloco de informações separadas
+								 // o resultado da query fica assim
+								 //		 {
+								 //		  _id: ObjectId("642d7ac53d8a7d8017a2303f"),
+								 //		  nome: 'Vale',
+								 //		  cidadeId: ObjectId("642c61b8e9e12c3b2804638e"),
+								 //		  estado: {
+								 //			_id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //			nome: 'São Paulo',
+								 //			sigla: 'SP',
+								 //			regiao: 'Sudeste',
+								 //			cidades: {
+								 //			  nome: 'Campinas',
+								 //			  area: 795.7,
+								 //			  prefeito: 'Jonas Donizette',
+								 //			  populacao: 1081000,
+								 //			  _id: ObjectId("642c6200e9e12c3b28046390")
+								 //			},
+								 //			populacao: null
+								 //		  }
+								 //		}
+								 //		{
+								 //		  _id: ObjectId("642d7ac53d8a7d8017a2303f"),
+								 //		  nome: 'Vale',
+								 //		  cidadeId: ObjectId("642c61b8e9e12c3b2804638e"),
+								 //		  estado: {
+								 //			_id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //			nome: 'São Paulo',
+								 //			sigla: 'SP',
+								 //			regiao: 'Sudeste',
+								 //			cidades: {
+								 //			  nome: 'Guarulhos',
+								 //			  populacao: 1325000,
+								 //			  _id: ObjectId("642c61d8e9e12c3b2804638f")
+								 //			},
+								 //			populacao: null
+								 //		  }
+								 //		}
+								 //		{
+								 //		  _id: ObjectId("642d7ac53d8a7d8017a2303f"),
+								 //		  nome: 'Vale',
+								 //		  cidadeId: ObjectId("642c61b8e9e12c3b2804638e"),
+								 //		  estado: {
+								 //			_id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //			nome: 'São Paulo',
+								 //			sigla: 'SP',
+								 //			regiao: 'Sudeste',
+								 //			cidades: {
+								 //			  nome: 'Sorocaba',
+								 //			  distanciaCapital: 87,
+								 //			  populacao: 644919,
+								 //			  _id: ObjectId("642c61b8e9e12c3b2804638e")
+								 //			},
+								 //			populacao: null
+								 //		  }
+								 //		}

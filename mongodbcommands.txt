@@ -157,4 +157,20 @@ $ mongo
 								 // {
 								 //	  sigla: 'SP',
 								 //	  populacao: 0
-								 //	}	
+								 //	}
+
+> db.estados.aggregate([
+  {
+    $addFields: {
+      "populacao": {
+        $toInt: "$populacao"
+      }
+    }
+  }
+])								 // usando aggregate para mudar o campo populacao no estado AL de string para INT
+
+> db.estados.updateMany(
+	{},
+	{ $rename:
+	{ "Cidades": "cidades"}
+})								 // usando aggregate para mudar o campo Cidades para cidades								 

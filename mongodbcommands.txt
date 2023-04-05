@@ -170,4 +170,28 @@ $ mongo
 	{},
 	{ $rename:
 	{ "Cidades": "cidades"}
-})								 // usando updateMany para mudar o campo Cidades para cidades								 
+})								 // usando updateMany para mudar o campo Cidades para cidades
+
+> db.estados.aggregate([
+	{ $project:
+	{populacao:
+	{
+	  $sum:"$cidades.populacao"},
+	  sigla: 1,
+	  _id:0
+	}
+	},
+	{$group:
+	{
+	  _id: null,
+	  populacaoTotal:
+	{$sum: "$populacao"
+	}
+}}])							 // depois de feitas as mudanças agora conseguimos fazer o aggregate pipeline
+								 // com $project & $group fazendo a soma total de populacao de todos registros
+								 // da collection
+								 // nesse caso vai retornar a query:
+								 //	{
+								 //	  _id: null,
+								 //	  populacaoTotal: 3538481
+								 //	}

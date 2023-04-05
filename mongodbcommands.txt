@@ -227,3 +227,49 @@ $ mongo
 	cidadeId: ObjectId("642c61b8e9e12c3b2804638e")
 })
 								 // cria nova entry em empresas relacionando ObjectId de cidade
+								 
+> db.empresas.aggregate
+	({$match:
+	{nome: 'Bradesco'}}, 
+	{$lookup: 
+	{from: 'estados', 
+	localField:'estadoId',
+	foreignField:'_id',
+	as: 'estado'}}).pretty()
+								 // Faz relação de uma pesquisa entre duas collectionsDB via ObjectId com 
+								 // aggregate $lookup & $match
+								 // resultado da query
+								 //	{
+								 //	  _id: ObjectId("642d79ed3d8a7d8017a2303e"),
+								 //	  nome: 'Bradesco',
+								 //	  estadoId: ObjectId("642c591fe9e12c3b2804638d"),
+								 //	  estado: [
+								 //		{
+								 //		  _id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //		  nome: 'São Paulo',
+								 //		  sigla: 'SP',
+								 //		  regiao: 'Sudeste',
+								 //		  cidades: [
+								 //			{
+								 //			  nome: 'Campinas',
+								 //			  area: 795.7,
+								 //			  prefeito: 'Jonas Donizette',
+								 //			  populacao: 1081000,
+								 //			  _id: ObjectId("642c6200e9e12c3b28046390")
+								 //			},
+								 //			{
+								 //			  nome: 'Guarulhos',
+								 //			  populacao: 1325000,
+								 //			  _id: ObjectId("642c61d8e9e12c3b2804638f")
+								 //			},
+								 //	 		{
+								 //			  nome: 'Sorocaba',
+								 //			  distanciaCapital: 87,
+								 //			  populacao: 644919,
+								 //			  _id: ObjectId("642c61b8e9e12c3b2804638e")
+								 //			}
+								 //		  ],
+								 //		  populacao: null
+								 //		}
+								 //	  ]
+								 //	}

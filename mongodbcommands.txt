@@ -363,3 +363,39 @@ $ mongo
 								 //			populacao: null
 								 //		  }
 								 //		}
+								 
+> db.empresas.aggregate([
+	{$match:{nome:'Vale'}},
+	{$lookup:
+	{from:'estados',
+	localField:'cidadeId',
+	foreignField:'cidades._id',
+	as:'estado'}},
+	{$unwind:'$estado'},
+	{$unwind:'$estado.cidades'},
+	{$addFields:
+	{mesmaCidade:
+	{$cmp:['$estado.cidades._id','$cidadeId']}}},
+	{$match:{mesmaCidade:0}}]).pretty()
+	
+								 // Limita o resultado das buscas anteriores a apenas um resultado que encapsula o resultado que procura
+								 // o resultado da query fica assim
+								 //		 {
+								 //		  _id: ObjectId("642d7ac53d8a7d8017a2303f"),
+								 //		  nome: 'Vale',
+								 //		  cidadeId: ObjectId("642c61b8e9e12c3b2804638e"),
+								 //		  estado: {
+								 //			_id: ObjectId("642c591fe9e12c3b2804638d"),
+								 //			nome: 'São Paulo',
+								 //			sigla: 'SP',
+								 //			regiao: 'Sudeste',
+								 //			cidades: {
+								 //			  nome: 'Sorocaba',
+								 //			  distanciaCapital: 87,
+								 //			  populacao: 644919,
+								 //			  _id: ObjectId("642c61b8e9e12c3b2804638e")
+								 //			},
+								 //			populacao: null
+								 //		  },
+								 //		  mesmaCidade: 0
+								 //		}

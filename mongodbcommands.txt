@@ -57,7 +57,7 @@ $ mongo
 	{nome: 'São Paulo', Cidades:
 	{ $elemMatch: 
 	{ nome: 'Sorocaba'}}})		 // usa operador $elemMatch para achar um array com pelo menos uma ocorrencia,
-								 // nesse caso vai retornar a query
+								 // nesse caso vai retornar a query:
 								 // 	{
 								 //		_id: ObjectId("642c591fe9e12c3b2804638d"),
 								 //		  nome: 'São Paulo',
@@ -119,14 +119,42 @@ $ mongo
 	}
 }])								 // usa metodo aggregate com estágio $project para selecionar apenas
 								 // os fields que vc quer mostrar ou alterar
+								 // nesse caso vai retornar a query:
+								 // {
+								 //   nome: 'Alagoas'
+								 // }
+								 //	{
+								 //	  nome: 'Rio de Janeiro',
+								 //	  cidades: [
+								 //		{
+								 //		  nome: 'Niteroi'
+								 //		}
+								 //	  ]
+								 //	}
+								 //	{
+								 //	  nome: 'São Paulo'
+								 //	}
 								 
 > db.estados.aggregate([
 	{ $project: {populacao:
 	{$sum:"$cidades.populacao"},
 	sigla: 1,
 	_id:0}
-])								 // usa metodo aggregate com estágio $project para criar entry populacao
+}])								 // usa metodo aggregate com estágio $project para criar query com entry populacao
 								 // com $sum de "$cidades.populacao" o $ indica ao MongoDB que o array
 								 // "$cidades.populacao" deve ser traduzido para um campo com a soma 
 								 // dos resultados da query. a posição do $ a esquerda significa que esse
 								 // campo deve ser compilado
+								 // nesse caso vai retornar a query:
+								 // {
+								 //	  sigla: 'AL',
+								 //	  populacao: 0
+								 //	}
+								 // {
+								 //	  sigla: 'RJ',
+								 //	  populacao: 487562
+								 //	}
+								 // {
+								 //	  sigla: 'SP',
+								 //	  populacao: 0
+								 //	}	

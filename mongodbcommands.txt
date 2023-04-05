@@ -214,3 +214,16 @@ $ mongo
 								 //	{
 								 //	  populacaoTotal: 3538481
 								 //	}
+								 
+> db.empresas.insertOne(
+	{nome: 'Bradesco',
+	estadoId: ObjectId("642c591fe9e12c3b2804638d")
+})								 
+
+								 // cria db empresas relacionando ObjectId de estado com outra tabeladoc
+								 
+> db.empresas.insertOne
+	({nome: 'Vale',
+	cidadeId: ObjectId("642c61b8e9e12c3b2804638e")
+})
+								 // cria nova entry em empresas relacionando ObjectId de cidade

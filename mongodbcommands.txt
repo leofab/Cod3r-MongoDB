@@ -237,7 +237,7 @@ $ mongo
 	foreignField:'_id',
 	as: 'estado'}}).pretty()
 								 // Faz relação de uma pesquisa entre duas collectionsDB via ObjectId com 
-								 // aggregate $lookup & $match
+								 // aggregate $lookup & $match com o resultado de as como um array de Objetos
 								 // resultado da query
 								 //	{
 								 //	  _id: ObjectId("642d79ed3d8a7d8017a2303e"),
@@ -273,3 +273,14 @@ $ mongo
 								 //		}
 								 //	  ]
 								 //	}
+								 
+> db.empresas.aggregate
+	({$match:
+	{nome: 'Bradesco'}}, 
+	{$lookup: 
+	{from: 'estados', 
+	localField:'estadoId',
+	foreignField:'_id',
+	as: 'estado'}},
+	{$unwind:'$estado'}).pretty()
+								 // Resultado de as como um Objeto sem ser encapsulado por array
